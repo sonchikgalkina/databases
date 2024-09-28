@@ -1,0 +1,30 @@
+@startuml
+
+entity "Tours" as Tours {
+    tour_id
+    name
+    start_date
+    end_date
+    price
+}
+
+entity "Clients" as Clients {
+    client_id
+    name
+    email
+    phone_number
+}
+
+entity "Bookings" as Bookings {
+    booking_id
+    booking_date
+    status
+    number_of_seats
+    tour_id
+    client_id
+}
+
+Tours --> Bookings
+Clients --> Bookings
+
+@enduml
