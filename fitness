@@ -1,0 +1,38 @@
+@startuml
+
+entity "Clients" as Clients {
+    client_id
+    name
+    email
+    phone_number
+}
+
+entity "Trainers" as Trainers {
+    trainer_id
+    name
+    specialization
+    phone_number
+}
+
+entity "Classes" as Classes {
+    class_id
+    name
+    date
+    start_time
+    end_time
+    place
+    trainer_id
+}
+
+entity "Attendances" as Attendances {
+    attendance_id
+    date
+    class_id
+    client_id 
+}
+
+Clients --> Attendances
+Classes --> Attendances
+Trainers --> Classes
+
+@enduml
