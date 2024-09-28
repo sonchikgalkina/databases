@@ -1,0 +1,30 @@
+@startuml
+
+entity "Movies" as Movies {
+    movie_id
+    name
+    genre
+    duration
+    age_restriction
+}
+
+entity "Showtimes" as Showtimes {
+    showtime_id
+    date
+    time
+    hall
+    movie_id
+}
+
+entity "Bookings" as Bookings {
+    booking_id
+    client_name
+    ticket_number
+    date
+    showtime_id
+}
+
+Movies --> Showtimes
+Showtimes --> Bookings
+
+@enduml
