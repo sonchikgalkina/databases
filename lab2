@@ -1,0 +1,255 @@
+CREATE TABLE Categories (
+    CategoryID INT PRIMARY KEY,
+    CategoryName VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Suppliers (
+    SupplierID INT PRIMARY KEY,
+    SupplierName VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(100) NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL,
+    Stock INT NOT NULL,
+    CategoryID INT,
+    SupplierID INT,
+    FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID),
+    FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID)
+);
+
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate TIMESTAMP NOT NULL,
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+CREATE TABLE OrderItems (
+    OrderItemID INT PRIMARY KEY,
+    OrderID INT,
+    ProductID INT,
+    Quantity INT NOT NULL,
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+INSERT INTO Categories (CategoryID, CategoryName) VALUES (1, 'Электроника');
+INSERT INTO Categories (CategoryID, CategoryName) VALUES (2, 'Одежда');
+INSERT INTO Categories (CategoryID, CategoryName) VALUES (3, 'Книги');
+
+INSERT INTO Suppliers (SupplierID, SupplierName) VALUES (1, 'Поставщик 1');
+INSERT INTO Suppliers (SupplierID, SupplierName) VALUES (2, 'Поставщик 2');
+
+INSERT INTO Products (ProductID, ProductName, Price, Stock, CategoryID, SupplierID) VALUES (1, 'Смартфон', 30000, 50, 1, 1);
+INSERT INTO Products (ProductID, ProductName, Price, Stock, CategoryID, SupplierID) VALUES (2, 'Футболка', 2000, 100, 2, 2);
+INSERT INTO Products (ProductID, ProductName, Price, Stock, CategoryID, SupplierID) VALUES (3, 'Детектив', 700, 200, 3, 1);
+
+INSERT INTO Customers (CustomerID, CustomerName, Email) VALUES (1, 'Иван Иванов', 'ivan@example.com');
+INSERT INTO Customers (CustomerID, CustomerName, Email) VALUES (2, 'Мария Петрова', 'maria@example.com');
+
+INSERT INTO Orders (OrderID, CustomerID, OrderDate) VALUES (1, 1, '2023-10-01 10:00:00');
+
+INSERT INTO OrderItems (OrderItemID, OrderID, ProductID, Quantity) VALUES (1, 1, 1, 2);
+INSERT INTO OrderItems (OrderItemID, OrderID, ProductID, Quantity) VALUES (2, 1, 2, 1);
+
+INSERT INTO Customers (CustomerID, CustomerName, Email) VALUES 
+(3, 'Олександр Сидоров', 'alexander@example.com'),
+(4, 'Елена Васильева', 'elena@example.com'),
+(5, 'Анна Смирнова', 'anna@example.com'),
+(6, 'Дмитрий Кузнецов', 'dmitry@example.com'),
+(7, 'Наталья Федорова', 'natalia@example.com'),
+(8, 'Павел Николаев', 'pavel@example.com'),
+(9, 'Светлана Морозова', 'svetlana@example.com'),
+(10, 'Борис Волков', 'boris@example.com'),
+(11, 'Татьяна Лебедева', 'tatiana@example.com'),
+(12, 'Алексей Григорьев', 'alexei@example.com'),
+(13, 'Марина Соколова', 'marina@example.com'),
+(14, 'Роман Тихонов', 'roman@example.com'),
+(15, 'Денис Макаров', 'denis@example.com');
+
+
+INSERT INTO Categories (CategoryID, CategoryName) VALUES 
+(4, 'Игрушки'),
+(5, 'Бытовая техника'),
+(6, 'Косметика'),
+(7, 'Спорт'),
+(8, 'Продукты питания'),
+(9, 'Мебель'),
+(10, 'Автотовары');
+
+INSERT INTO Suppliers (SupplierID, SupplierName) VALUES
+(3, 'Поставщик 3'),
+(4, 'Поставщик 4'),
+(5, 'Поставщик 5');
+
+INSERT INTO Products (ProductID, ProductName, Price, Stock, CategoryID, SupplierID) VALUES
+(4, 'Конструктор LEGO', 7000, 80, 4, 1),
+(5, 'Холодильник', 40000, 20, 5, 2),
+(6, 'Шампунь', 300, 150, 6, 3),
+(7, 'Беговая дорожка', 10000, 15, 7, 4),
+(8, 'Макароны', 100, 500, 8, 5),
+(9, 'Диван', 25000, 10, 9, 1),
+(10, 'Масло для двигателя', 4000, 40, 10, 2),
+(11, 'Телевизор', 70000, 25, 1, 3),
+(12, 'Кроссовки', 10000, 60, 2, 4),
+(13, 'Учебник математики', 500, 30, 3, 5),
+(14, 'Плюшевый медведь', 1500, 100, 4, 1),
+(15, 'Стиральная машина', 17000, 5, 5, 2);
+
+INSERT INTO Orders (OrderID, CustomerID, OrderDate) VALUES
+(2, 2, '2023-10-02 11:00:00'),
+(3, 3, '2023-10-03 12:30:00'),
+(4, 4, '2023-10-04 14:00:00'),
+(5, 5, '2023-10-05 15:00:00'),
+(6, 6, '2023-10-06 16:00:00'),
+(7, 7, '2023-10-07 17:00:00'),
+(8, 8, '2023-10-08 18:00:00'),
+(9, 9, '2023-10-09 19:00:00'),
+(10, 10, '2023-10-10 20:00:00'),
+(11, 11, '2023-10-11 21:00:00'),
+(12, 12, '2023-10-12 22:00:00'),
+(13, 13, '2023-10-13 23:00:00'),
+(14, 14, '2023-10-14 09:00:00'),
+(15, 15, '2023-10-15 08:00:00');
+
+INSERT INTO OrderItems (OrderItemID, OrderID, ProductID, Quantity) VALUES
+(3, 2, 6, 3),
+(4, 3, 7, 1),
+(5, 4, 8, 5),
+(6, 5, 9, 1),
+(7, 6, 10, 2),
+(8, 7, 11, 1),
+(9, 8, 12, 3),
+(10, 9, 13, 2),
+(11, 10, 14, 5),
+(12, 11, 15, 1),
+(13, 12, 4, 1),
+(14, 13, 5, 2),
+(15, 14, 6, 4),
+(16, 15, 7, 1),
+(17, 1, 8, 10),
+(18, 2, 9, 2),
+(19, 3, 10, 1),
+(20, 4, 11, 2),
+(21, 5, 12, 3),
+(22, 6, 13, 4),
+(23, 7, 14, 2),
+(24, 8, 15, 3),
+(25, 9, 4, 1),
+(26, 10, 5, 3),
+(27, 11, 6, 2),
+(28, 12, 7, 5),
+(29, 13, 8, 4),
+(30, 14, 9, 6),
+(31, 15, 10, 8);
+
+-- список всех товаров, отсортированных по цене
+SELECT * FROM Products ORDER BY Price;
+
+SELECT * FROM Products ORDER BY Price DESC;
+
+-- клиенты, которые сделали заказы в определённый период времени
+SELECT DISTINCT CustomerID
+FROM Orders
+WHERE OrderDate BETWEEN '2023-10-01' AND '2023-10-08';
+
+-- продукты, стоимость которых находится в пределах заданного диапазона
+SELECT * FROM Products WHERE Price BETWEEN 5000 AND 25000;
+
+INSERT INTO Orders (OrderID, CustomerID, OrderDate) values
+(16, 1, '2023-10-16 10:30:00'),
+(17, 1, '2023-10-17 11:00:00'),
+(18, 4, '2023-10-18 10:00:00'),
+(19, 4, '2023-10-19 11:15:00'),
+(20, 8, '2023-10-20 12:00:00'),
+(21, 9, '2023-10-21 13:45:00'),
+(22, 11, '2023-10-22 14:30:00'),
+(23, 14, '2023-10-23 15:30:00');
+
+INSERT INTO OrderItems (OrderItemID, OrderID, ProductID, Quantity) values
+(34, 17, 12, 3),
+(35, 17, 13, 2),
+(36, 18, 11, 3),
+(37, 19, 12, 1),
+(38, 19, 13, 4),
+(39, 20, 14, 2),
+(40, 21, 15, 3),
+(41, 22, 4, 1),
+(42, 23, 5, 5);
+
+-- обновление информации о ценах на товары в одной из категорий
+UPDATE Products
+SET Price = Price * 1.10
+WHERE CategoryID = 5;
+
+
+INSERT INTO OrderItems (OrderItemID, OrderID, ProductID, Quantity) values
+(32, 16, 6, 2),
+(33, 16, 7, 1);
+
+INSERT INTO Orders (OrderID, CustomerID, OrderDate) VALUES
+(43, 1, '2022-10-01 10:00:00'), 
+(44, 2, '2022-11-01 11:00:00'), 
+(45, 3, '2022-12-01 12:00:00'), 
+(46, 4, '2023-10-02 14:00:00');  
+   
+-- удаление заказов, которые были сделаны более года назад
+DELETE FROM OrderItems
+WHERE OrderID IN (
+    SELECT OrderID FROM Orders WHERE OrderDate < '2022-10-18'
+);
+
+DELETE FROM Orders
+WHERE OrderDate < '2022-10-18';
+
+-- все поставки от определённых поставщиков
+select ProductName, Price
+FROM Products
+WHERE SupplierID = 1;
+
+-- первые пять записей о производственных заказах без первых трех
+SELECT * 
+FROM Orders 
+ORDER BY OrderID 
+LIMIT 5 OFFSET 3;
+
+-- средняя цена товаров для каждой категории
+CREATE TABLE AveragePrices (
+    CategoryID INT,
+    AveragePrice DECIMAL(10, 2)
+);
+
+INSERT INTO AveragePrices (CategoryID, AveragePrice)
+SELECT CategoryID, AVG(Price) AS AveragePrice
+FROM Products
+GROUP BY CategoryID;
+
+-- сортировка по дате
+SELECT *
+FROM Orders
+ORDER BY OrderDate DESC;
+
+SELECT *
+FROM Orders
+ORDER BY OrderDate;
+
+-- список клиентов, которые сделали наибольшее количество заказов
+SELECT CustomerId, COUNT(*) AS OrderCount
+FROM Orders
+GROUP BY CustomerId
+ORDER BY OrderCount DESC;
+
+--  заказы, которые содержат определённое количество единиц товара
+SELECT OrderId, SUM(Quantity) AS TotalQuantity
+FROM OrderItems
+GROUP BY OrderId
+HAVING SUM(Quantity) = 13;
+
