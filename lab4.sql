@@ -102,9 +102,9 @@ INSERT INTO available_slots (trainer_id, slot_date, slot_time)
    (1, '2023-10-26', '09:00'),
    (2, '2023-10-26', '10:00');
   
-
-INSERT INTO bookings (user_id, trainer_id, service_id, booking_date, booking_time, subscription_id) values
-(3, 1, 1, '2023-10-25', '09:00', 1);  
+INSERT INTO bookings (user_id, trainer_id, service_id, booking_date, booking_time, subscription_id) 
+VALUES 
+(3, 1, 1, '2023-10-25', '09:00', 1); 
 
 CREATE OR REPLACE FUNCTION log_changes() RETURNS TRIGGER AS $$
 BEGIN
@@ -138,22 +138,6 @@ BEGIN
     END LOOP;
 END;
 $$;
-
-CREATE OR REPLACE FUNCTION update_remaining_visits() RETURNS TRIGGER AS $$
-BEGIN
-
-    UPDATE subscriptions
-    SET remaining_visits = remaining_visits - 1
-    WHERE subscription_id = NEW.subscription_id; 
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trg_update_remaining_visits
-AFTER INSERT ON bookings
-FOR EACH ROW
-EXECUTE FUNCTION update_remaining_visits();
 
 CREATE VIEW top_services AS
 SELECT 
@@ -195,6 +179,7 @@ JOIN
 WHERE 
     r.name <> 'Administrator';
    
+
 CREATE OR REPLACE FUNCTION get_remaining_visits(p_subscription_id INTEGER) 
 RETURNS INTEGER AS $$
 DECLARE
@@ -202,7 +187,7 @@ DECLARE
 BEGIN
     SELECT remaining_visits INTO remaining
     FROM subscriptions
-    WHERE id = p_subscription_id;
+    WHERE subscription_id = p_subscription_id;
     
     RETURN remaining;
 END;
@@ -210,15 +195,16 @@ $$ LANGUAGE plpgsql;
 
 SELECT get_remaining_visits(1);
 
+
 CREATE OR REPLACE FUNCTION get_available_slots(p_trainer_id INTEGER, p_date DATE) 
 RETURNS TABLE(slot_time TIME) AS $$
 BEGIN
     RETURN QUERY
-    SELECT aslots.time_slot
+    SELECT aslots.slot_time
     FROM available_slots aslots
     WHERE aslots.trainer_id = p_trainer_id
-      AND aslots.date = p_date
-      AND aslots.time_slot NOT IN (
+      AND aslots.slot_date = p_date
+      AND aslots.slot_time NOT IN (
           SELECT b.booking_time
           FROM bookings b
           WHERE b.trainer_id = p_trainer_id
@@ -229,12 +215,39 @@ $$ LANGUAGE plpgsql;
 
 SELECT * FROM get_available_slots(1, '2023-10-25');
 
-DROP TRIGGER IF EXISTS trg_update_remaining_visits ON bookings;
+
+CREATE OR REPLACE FUNCTION update_remaining_visits() RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE subscriptions
+    SET remaining_visits = remaining_visits - 1
+    WHERE subscription_id = NEW.subscription_id; 
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trg_update_remaining_visits
 AFTER INSERT ON bookings
 FOR EACH ROW
 EXECUTE FUNCTION update_remaining_visits();
+
+SELECT * FROM subscriptions WHERE subscription_id = 1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
